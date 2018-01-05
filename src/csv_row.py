@@ -297,7 +297,30 @@ def csvrow_samplingByItemInColumn (source, columnName, samplingRatio):
         
     finally:
         return result, msg, newData, countRows, countColumns
-
+    
+"""
+機能   :  キー（columnName）の種類ごとにサンプリングをする
+引数   :
+            DataFrame   :   DataFrame形式のデータ
+            int         :   キーとする文字が入っている列の番号（最初の列は1）
+            float       :   samplingの割合 (e.g.: 10%の場合-.1、1%の場合0.01)
+戻り値  :
+            int         :   ステータス
+            string      :   メッセージ
+            DataFrame   :   sampling後のDataFrame形式のデータ
+            int         :   header有で、csvファイルにしたときのデータの行数
+            int         :   csvファイルにしたときのデータの列数
+"""
+def csvrow_samplingByItemInColumnNo (source, columnNo, samplingRatio):
+    result = const.RESULT_COMPLETE      # ステータス
+    msg = const.MSG_COMPLETE            # メッセージ
+    data_actual = pandas.DataFrame()        # sampling後のDataFrame形式のデータ
+    countRows = 0                       # header有で、csvファイルにしたときのデータの行数
+    countColumns = 0
+    columnName = source.columns[columnNo -1]
+    result, msg, data_actual, countRows, countColumns = csvrow_samplingByItemInColumn(source, columnName, samplingRatio)
+    return result, msg, data_actual, countRows, countColumns 
+    
 """
 機能   :  source(DataFrame)の中の、指定した列(targetColumnNumber)を検索し、keyと一致する行の番号を全てを取得する
 引数   :
