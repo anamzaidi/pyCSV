@@ -1,3 +1,7 @@
+ano/
+data/
+src/ano*
+
 # Files created through the unit test.
 src/test/data/output_*
 

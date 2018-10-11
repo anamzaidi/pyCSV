@@ -61,6 +61,38 @@ def csvcol_getHeaderColumnNumber(source, headerName):
         return result, msg, headerColumnNumber
 
 """
+機能      :   headerNameListとheader名が一致する列番号を取得する
+引数      :
+              DataFrame     :   DataFrame形式のデータ
+              string        :   header名称のリスト
+戻り値     :
+              int           :   ステータス
+              string        :   メッセージ
+              int           :   headerのcolumnNumberのリスト
+                                ヘッダ名が一致しなかった場合、リストには-1を設定する。
+"""
+def csvcol_getHeaderColumnNumberList(source, headerNameList):
+    result = const.RESULT_COMPLETE  # ステータス
+    msg = const.MSG_COMPLETE        # メッセージ
+    headerColumnNumber = 0          # headerのcolumnNumber
+    
+    headerColumnNumberList = []
+    try:
+        for headerName in headerNameList:
+            resultTmp, msgTmp, headerColumnNumber = csvcol_getHeaderColumnNumber(source, headerName)
+            if resultTmp == 1:
+                headerColumnNumberList.append(headerColumnNumber)
+            else:
+                headerColumnNumberList.append(-1)
+    # 予期しなかったError
+    except Exception:
+        result = const.RESULT_ERR_UNEXPECTED
+        msg = const.MSG_ERR_UNEXPECTED
+
+    finally:
+        return result, msg, headerColumnNumberList
+    
+"""
 機能   :    headerColumnNumberと一致するheader名を取得する
 引数   :
             DataFrame   :   DataFrame形式のデータ
